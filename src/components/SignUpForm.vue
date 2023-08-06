@@ -5,6 +5,7 @@
 
     <label>Password:</label>
     <input type="password" required v-model="password">
+    <div class="error" v-if="passwordError">{{passwordError}}</div>
 
     <label>Role:</label>
     <select v-model="role">
@@ -13,7 +14,7 @@
     </select>
 
     <label>Skills:</label>
-    <input type="text" required v-model="tempSkill" @keyup.alt="addSkill">
+    <input type="text" v-model="tempSkill" @keyup.alt="addSkill">
 
     <div v-for="skill in skills" :key="skill" @click="deleteSkill(skill)" class="pill">{{skill}}</div>
 
@@ -36,7 +37,8 @@ export default {
             role:'developer',
             terms:false,
             tempSkill:'',
-            skills:[]
+            skills:[],
+            passwordError:''
         }
     },
     methods:{
@@ -54,7 +56,14 @@ export default {
             })
         },
         handleSubmit(){
-
+            this.passwordError = this.password.length > 5 ? '' : 'Password must be at least 6 chars long'
+            if (!this.passwordError) {
+                console.log('email: ', this.email)
+                console.log('password: ', this.password)
+                console.log('role: ', this.role)
+                console.log('skills: ', this.skills)
+                console. log('terms accepted',this.terms)
+            }
         }
     }
 }
@@ -128,5 +137,11 @@ button{
 }
 .submit{
     text-align: center;
+}
+.error{
+    color:#ff0062;
+    margin-top: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
 }
 </style>
